@@ -38,12 +38,12 @@ resource "vault_jwt_auth_backend_role" "okta_role" {
   token_policies       = each.value.token_policies
   verbose_oidc_logging = var.verbose_oidc_logging
 
-  allowed_redirect_uris = [
+  allowed_redirect_uris = concat([
     "${var.vault_addr}/ui/vault/auth/${vault_jwt_auth_backend.okta_oidc.path}/oidc/callback",
 
     # This is for logging in with the CLI if you want.
     "http://localhost:${var.cli_port}/oidc/callback",
-  ]
+  ], [for a in var.additional_vault_addrs : "${a}/ui/vault/auth/${vault_jwt_auth_backend.okta_oidc.path}/oidc/callback"])
 
   user_claim      = "email"
   role_type       = "oidc"
