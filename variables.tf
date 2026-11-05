@@ -19,6 +19,12 @@ variable "vault_addr" {
   description = "Vault address in the form of https://domain:8200"
 }
 
+variable "additional_vault_addrs" {
+  type        = list(string)
+  description = "Extra Vault addresses (e.g. legacy DNS aliases) allowed as UI OIDC redirect hosts"
+  default     = []
+}
+
 variable "okta_discovery_url" {
   type        = string
   description = "Okta Authz server Issuer URI: i.e. https://<org>.okta.com/oauth2/<id>"
